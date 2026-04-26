@@ -118,9 +118,9 @@ const index = () => {
       await axios.post("https://internshala-clone-ydgs.onrender.com/api/application",applicationdata)
       toast.success("Application submit successfully")
       router.push('/internship')
-    } catch (error) {
+    } catch (error: any) {
       console.error(error)
-      toast.error("Failed to submit application")
+      toast.error(error.response?.data?.error || "Failed to submit application")
     }
   }
   return (

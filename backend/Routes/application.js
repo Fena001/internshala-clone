@@ -1,24 +1,66 @@
 const express = require("express");
 const router = express.Router();
 const application = require("../Model/Application");
+const Subscription = require("../Model/Subscription");
 
 router.post("/", async (req, res) => {
-  const applicationipdata = new application({
-    company: req.body.company,
-    category: req.body.category,
-    coverLetter: req.body.coverLetter,
-    user: req.body.user,
-    Application: req.body.Application,
-    body: req.body.body,
-  });
-  await applicationipdata
-    .save()
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((error) => {
-      console.log(error);
+  try {
+    const userUid = req.body.user?.uid || req.body.user?._id;
+    if (!userUid) return res.status(400).json({ error: "User ID required" });
+
+    // Find or create subscription
+    let sub = await Subscription.findOne({ userUid });
+    if (!sub) {
+      sub = new Subscription({ userUid });
+      await sub.save();
+    }
+
+    // Reset usage if a month has passed
+    const now = new Date();
+    const lastReset = new Date(sub.lastApplicationReset);
+    if (now.getMonth() !== lastReset.getMonth() || now.getFullYear() !== lastReset.getFullYear()) {
+      sub.applicationsThisMonth = 0;
+      sub.lastApplicationReset = now;
+      
+      // Also check if plan expired
+      if (sub.planExpiry && now > sub.planExpiry) {
+          sub.plan = "Free";
+      }
+      await sub.save();
+    } else if (sub.planExpiry && now > sub.planExpiry && sub.plan !== "Free") {
+      sub.plan = "Free";
+      await sub.save();
+    }
+
+    // Check limits
+    const limits = { Free: 1, Bronze: 3, Silver: 5, Gold: Infinity };
+    const limit = limits[sub.plan] || 1;
+
+    if (sub.applicationsThisMonth >= limit) {
+      return res.status(403).json({ error: `You have reached your limit of ${limit} application(s) for the ${sub.plan} plan this month.` });
+    }
+
+    // Process application
+    const applicationipdata = new application({
+      company: req.body.company,
+      category: req.body.category,
+      coverLetter: req.body.coverLetter,
+      user: req.body.user,
+      Application: req.body.Application,
+      body: req.body.body,
     });
+
+    const data = await applicationipdata.save();
+    
+    // Increment usage
+    sub.applicationsThisMonth += 1;
+    await sub.save();
+
+    res.send(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 router.get("/", async (req, res) => {
   try {

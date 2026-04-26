@@ -167,9 +167,9 @@ const index = () => {
       );
       toast.success("Application submit successfully");
       router.push("/job");
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      toast.error("Failed to submit application");
+      toast.error(error.response?.data?.error || "Failed to submit application");
     }
   };
   return (

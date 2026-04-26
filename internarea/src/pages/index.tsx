@@ -13,8 +13,10 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 export default function SvgSlider() {
+  const { t } = useTranslation();
   const categories = [
     "Big Brands",
     "Work From Home",
@@ -87,22 +89,22 @@ export default function SvgSlider() {
   const slides = [
     {
       pattern: "pattern-1",
-      title: "Start Your Career Journey",
+      title: t("Slide1"),
       bgColor: "bg-indigo-600",
     },
     {
       pattern: "pattern-2",
-      title: "Learn From The Best",
+      title: t("Slide2"),
       bgColor: "bg-blue-600",
     },
     {
       pattern: "pattern-3",
-      title: "Grow Your Skills",
+      title: t("Slide3"),
       bgColor: "bg-purple-600",
     },
     {
       pattern: "pattern-4",
-      title: "Connect With Top Companies",
+      title: t("Slide4"),
       bgColor: "bg-teal-600",
     },
   ];
@@ -142,9 +144,9 @@ export default function SvgSlider() {
       {/* hero section */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Make your dream career a reality
+          {t("HeroTitle")}
         </h1>
-        <p className="text-xl text-gray-600">Trending on InternArea 🔥</p>
+        <p className="text-xl text-gray-600">{t("HeroSub")}</p>
       </div>
       {/* Swiper section */}
       <div className="mb-16">
@@ -244,10 +246,10 @@ export default function SvgSlider() {
       {/* Category section */}
       <div className="mb-12">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">
-          Latest internships on Intern Area
+          {t("LatestInternships")}
         </h2>
         <div className="flex flex-wrap gap-4">
-          <span className="text-gray-700 font-medium">POPULAR CATEGORIES:</span>
+          <span className="text-gray-700 font-medium">{t("PopularCat")}</span>
           {categories.map((category) => (
             <button
               key={category}
@@ -258,7 +260,14 @@ export default function SvgSlider() {
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
-              {category}
+              {category === "Big Brands" && t("CatBigBrands")}
+              {category === "Work From Home" && t("CatWFH")}
+              {category === "Part-time" && t("CatPartTime")}
+              {category === "MBA" && t("CatMBA")}
+              {category === "Engineering" && t("CatEngineering")}
+              {category === "Media" && t("CatMedia")}
+              {category === "Design" && t("CatDesign")}
+              {category === "Data Science" && t("CatDataScience")}
             </button>
           ))}
         </div>
@@ -272,7 +281,7 @@ export default function SvgSlider() {
           >
             <div className="flex items-center gap-2 text-blue-600 mb-4">
               <ArrowUpRight size={20} />
-              <span className="font-medium">Actively Hiring</span>
+              <span className="font-medium">{t("ActivelyHiring")}</span>
             </div>
             <h3 className="text-lg font-semibold mb-2 text-gray-800">
               {internship.title}
@@ -294,13 +303,13 @@ export default function SvgSlider() {
             </div>
             <div className="flex items-center justify-between mt-6">
               <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">
-                Internship
+                {t("Internships")}
               </span>
               <Link
                 href={`/detailiternship/${internship._id}`}
                 className="text-blue-600 hover:text-blue-700 flex items-center gap-1"
               >
-                View details
+                {t("ViewDetails")}
                 <ChevronRight size={16} />
               </Link>
             </div>
@@ -309,7 +318,7 @@ export default function SvgSlider() {
       </div>
       {/* Jobs grid   */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Latest Jobs</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("LatestJobs")}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {filteredJobs.map((job: any, index: any) => (
             <div
@@ -318,7 +327,7 @@ export default function SvgSlider() {
             >
               <div className="flex items-center gap-2 text-blue-600 mb-4">
                 <ArrowUpRight size={20} />
-                <span className="font-medium">Actively Hiring</span>
+                <span className="font-medium">{t("ActivelyHiring")}</span>
               </div>
               <h3 className="text-lg font-semibold mb-2 text-gray-800">
                 {job.title}
@@ -340,13 +349,13 @@ export default function SvgSlider() {
               </div>
               <div className="flex items-center justify-between mt-6">
                 <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">
-                  Jobs
+                  {t("Jobs")}
                 </span>
                 <Link
                   href={`/detailInternship?q=${job._id}`}
                   className="text-blue-600 hover:text-blue-700 flex items-center gap-1"
                 >
-                  View details
+                  {t("ViewDetails")}
                   <ChevronRight size={16} />
                 </Link>
               </div>
