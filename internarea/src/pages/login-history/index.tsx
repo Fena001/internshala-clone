@@ -22,7 +22,7 @@ export default function LoginHistoryPage() {
 
     const fetchHistory = async () => {
       try {
-        const res = await axios.get(`http://localhost:5001/api/auth/login-history/${user.uid}`);
+        const res = await axios.get(`https://internshala-0g4g.onrender.com/api/auth/login-history/${user.uid}`);
         if (res.data.success) {
           setHistory(res.data.history);
         }

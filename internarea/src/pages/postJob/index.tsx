@@ -47,7 +47,7 @@ const index = () => {
     }
     try {
       setisloading(true);
-      const res = await axios.post("http://localhost:5001/api/job", formData);
+      const res = await axios.post("https://internshala-0g4g.onrender.com/api/job", formData);
       toast.success("job posted successfuly");
       router.push("/adminpanel");
     } catch (error) {

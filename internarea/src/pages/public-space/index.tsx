@@ -27,14 +27,14 @@ export default function PublicSpace() {
   const fetchStats = async () => {
     if (!user) return;
     try {
-      const friendRes = await axios.get(`http://localhost:5001/api/public-space/friends/${user.uid}`);
+      const friendRes = await axios.get(`https://internshala-0g4g.onrender.com/api/public-space/friends/${user.uid}`);
       setFriendCount(friendRes.data.count);
       setFriendsList(friendRes.data.friends || []);
       
-      const countRes = await axios.get(`http://localhost:5001/api/public-space/daily-count/${user.uid}`);
+      const countRes = await axios.get(`https://internshala-0g4g.onrender.com/api/public-space/daily-count/${user.uid}`);
       setDailyPostCount(countRes.data.count);
 
-      const suggestedRes = await axios.get(`http://localhost:5001/api/public-space/suggested-friends/${user.uid}?currentEmail=${user.email || ""}`);
+      const suggestedRes = await axios.get(`https://internshala-0g4g.onrender.com/api/public-space/suggested-friends/${user.uid}?currentEmail=${user.email || ""}`);
       if(suggestedRes.data.success) {
         setSuggestedUsers(suggestedRes.data.suggested);
       }
@@ -46,7 +46,7 @@ export default function PublicSpace() {
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`http://localhost:5001/api/public-space/feed?page=${page}&limit=20`);
+      const res = await axios.get(`https://internshala-0g4g.onrender.com/api/public-space/feed?page=${page}&limit=20`);
       setPosts(res.data.posts);
     } catch (err) {
       toast.error("Failed to fetch feed");
@@ -108,7 +108,7 @@ export default function PublicSpace() {
     setIsPosting(true);
     try {
       const hashtags = caption.match(/#[\w]+/g) || [];
-      const res = await axios.post("http://localhost:5001/api/public-space/post", {
+      const res = await axios.post("https://internshala-0g4g.onrender.com/api/public-space/post", {
         userUid: user.uid,
         userName: user.name,
         userPhoto: user.photo,
@@ -140,7 +140,7 @@ export default function PublicSpace() {
     if (user.uid === friendUid) return toast.error("You cannot add yourself");
     
     try {
-      const res = await axios.post("http://localhost:5001/api/public-space/friends/add", {
+      const res = await axios.post("https://internshala-0g4g.onrender.com/api/public-space/friends/add", {
         uid: user.uid,
         friendUid: friendUid
       });
@@ -156,7 +156,7 @@ export default function PublicSpace() {
   const likePost = async (postId: string) => {
     if (!user) return toast.error("Please login to like");
     try {
-      const res = await axios.post(`http://localhost:5001/api/public-space/post/${postId}/like`, { uid: user.uid });
+      const res = await axios.post(`https://internshala-0g4g.onrender.com/api/public-space/post/${postId}/like`, { uid: user.uid });
       if (res.data.success) {
         setPosts(posts.map(p => p._id === postId ? { ...p, likes: res.data.likes } : p));
       }
@@ -167,7 +167,7 @@ export default function PublicSpace() {
 
   const deletePost = async (postId: string) => {
     try {
-      await axios.delete(`http://localhost:5001/api/public-space/post/${postId}?uid=${user.uid}`);
+      await axios.delete(`https://internshala-0g4g.onrender.com/api/public-space/post/${postId}?uid=${user.uid}`);
       toast.success("Post deleted");
       setPosts(posts.filter(p => p._id !== postId));
       fetchStats();
@@ -184,7 +184,7 @@ export default function PublicSpace() {
       return;
     }
     try {
-      const res = await axios.get(`http://localhost:5001/api/public-space/search-users?q=${q}&currentUid=${user.uid}&currentEmail=${user.email || ""}`);
+      const res = await axios.get(`https://internshala-0g4g.onrender.com/api/public-space/search-users?q=${q}&currentUid=${user.uid}&currentEmail=${user.email || ""}`);
       if (res.data.success) setSearchResults(res.data.users);
     } catch (err) {
       console.error(err);

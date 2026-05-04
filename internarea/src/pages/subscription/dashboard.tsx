@@ -22,8 +22,8 @@ export default function SubscriptionDashboard() {
     const fetchData = async () => {
       try {
         const [subRes, transRes] = await Promise.all([
-          axios.get(`http://localhost:5001/api/subscription/my-plan/${user.uid}`),
-          axios.get(`http://localhost:5001/api/subscription/transactions/${user.uid}`)
+          axios.get(`https://internshala-0g4g.onrender.com/api/subscription/my-plan/${user.uid}`),
+          axios.get(`https://internshala-0g4g.onrender.com/api/subscription/transactions/${user.uid}`)
         ]);
         
         if (subRes.data.success) setSubscription(subRes.data.subscription);

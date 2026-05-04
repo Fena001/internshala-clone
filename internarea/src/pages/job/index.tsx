@@ -129,7 +129,7 @@ const index = () => {
   useEffect(()=>{
     const fetchdata=async()=>{
       try {
-        const res=await axios.get( "http://localhost:5001/api/job")     
+        const res=await axios.get( "https://internshala-0g4g.onrender.com/api/job")     
         setjob(res.data)
         setfilteredjobs(res.data)
       } catch (error) {

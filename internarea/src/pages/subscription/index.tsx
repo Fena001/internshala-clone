@@ -14,7 +14,7 @@ export default function SubscriptionPage() {
 
   useEffect(() => {
     if (user) {
-      axios.get(`http://localhost:5001/api/subscription/my-plan/${user.uid}`)
+      axios.get(`https://internshala-0g4g.onrender.com/api/subscription/my-plan/${user.uid}`)
         .then(res => {
           if (res.data.success && res.data.subscription) {
             setCurrentPlan(res.data.subscription.plan);
@@ -53,7 +53,7 @@ export default function SubscriptionPage() {
         return;
       }
 
-      const orderRes = await axios.post("http://localhost:5001/api/subscription/create-order", {
+      const orderRes = await axios.post("https://internshala-0g4g.onrender.com/api/subscription/create-order", {
         amount,
         planName
       });
@@ -73,7 +73,7 @@ export default function SubscriptionPage() {
         order_id: orderRes.data.order.id,
         handler: async function (response: any) {
           try {
-            const verifyRes = await axios.post("http://localhost:5001/api/subscription/verify-payment", {
+            const verifyRes = await axios.post("https://internshala-0g4g.onrender.com/api/subscription/verify-payment", {
               ...response,
               amount,
               planName,

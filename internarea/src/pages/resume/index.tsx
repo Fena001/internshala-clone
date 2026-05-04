@@ -79,7 +79,7 @@ export default function ResumeBuilder() {
     }
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:5001/api/otp/send-otp", {
+      const response = await axios.post("https://internshala-0g4g.onrender.com/api/otp/send-otp", {
         email: user.email,
       });
 
@@ -102,7 +102,7 @@ export default function ResumeBuilder() {
     setOtpLoading(true);
     try {
       // 1. Verify OTP
-      const verifyRes = await axios.post("http://localhost:5001/api/otp/verify-otp", {
+      const verifyRes = await axios.post("https://internshala-0g4g.onrender.com/api/otp/verify-otp", {
         email: user.email,
         otp,
       });
@@ -117,7 +117,7 @@ export default function ResumeBuilder() {
       setShowOtpModal(false);
 
       // 2. Create Razorpay Order & Save Draft Resume
-      const orderRes = await axios.post("http://localhost:5001/api/resume/create-order", {
+      const orderRes = await axios.post("https://internshala-0g4g.onrender.com/api/resume/create-order", {
         userId: user.uid,
         formData,
       });
@@ -136,7 +136,7 @@ export default function ResumeBuilder() {
           try {
             toast.info("Verifying payment...");
             // Verify Payment on Backend
-            const verification = await axios.post("http://localhost:5001/api/resume/verify-payment", {
+            const verification = await axios.post("https://internshala-0g4g.onrender.com/api/resume/verify-payment", {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
