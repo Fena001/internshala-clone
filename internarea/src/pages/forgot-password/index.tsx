@@ -23,7 +23,7 @@ export default function ForgotPassword() {
 
     setLoading(true);
     try {
-      const response = await axios.post("https://internshala-clone-ydgs.onrender.com/api/auth/forgot-password", {
+      const response = await axios.post("http://localhost:5001/api/auth/forgot-password", {
         type: method,
         value: value.trim()
       });

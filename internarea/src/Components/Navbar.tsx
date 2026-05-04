@@ -48,7 +48,7 @@ const Navbar = () => {
       
       // Log the OAuth login in the backend
       try {
-        await axios.post("https://internshala-clone-ydgs.onrender.com/api/auth/log-oauth-login", {
+        await axios.post("http://localhost:5001/api/auth/log-oauth-login", {
           uid: result.user.uid,
           email: result.user.email
         });
@@ -81,7 +81,7 @@ const Navbar = () => {
     }
     setIsCustomLoggingIn(true);
     try {
-      const res = await axios.post("https://internshala-clone-ydgs.onrender.com/api/auth/login", {
+      const res = await axios.post("http://localhost:5001/api/auth/login", {
         type: "email",
         value: loginEmail,
         password: loginPassword
@@ -111,7 +111,7 @@ const Navbar = () => {
     if (!loginOtpInput || loginOtpInput.length !== 6) return toast.error("Enter 6-digit OTP");
     setIsCustomLoggingIn(true);
     try {
-      const res = await axios.post("https://internshala-clone-ydgs.onrender.com/api/auth/verify-login-otp", {
+      const res = await axios.post("http://localhost:5001/api/auth/verify-login-otp", {
         email: loginPendingEmail,
         otp: loginOtpInput
       });
@@ -160,7 +160,7 @@ const Navbar = () => {
   const sendOtp = async () => {
     setIsLoadingOtp(true);
     try {
-      const res = await axios.post("https://internshala-clone-ydgs.onrender.com/api/otp/send-otp", { email: user.email });
+      const res = await axios.post("http://localhost:5001/api/otp/send-otp", { email: user.email });
       if (res.data.success) {
         setOtpSent(true);
         toast.success("OTP sent to your email! (Check backend console if email is not setup)");
@@ -180,7 +180,7 @@ const Navbar = () => {
     }
     setIsLoadingOtp(true);
     try {
-      const res = await axios.post("https://internshala-clone-ydgs.onrender.com/api/otp/verify-otp", {
+      const res = await axios.post("http://localhost:5001/api/otp/verify-otp", {
         email: user.email,
         otp: otpInput
       });
